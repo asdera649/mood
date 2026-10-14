@@ -6,3 +6,5 @@ pandas
 tqdm
 streamlit
 plotly
+pywebview
+pyinstaller
