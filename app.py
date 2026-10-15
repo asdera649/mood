@@ -704,12 +704,38 @@ def render_dashboard(df, label, min_conf):
 # ----------------------------------------------------------------------------
 def tab_about(bundle):
     meta = bundle["meta"]
-    cols = st.columns(2)
-    cols[0].markdown(card("Базовая модель", meta["base_model"].split("/")[-1], "предобученный RuBERT"), unsafe_allow_html=True)
-    cols[1].markdown(card("Параметров", f"{bundle['n_params'] / 1e6:.1f} млн", f"макс. длина {meta['max_len']} токенов"), unsafe_allow_html=True)
+    #cols = st.columns(2)
+    #cols[0].markdown(card("Базовая модель", meta["base_model"].split("/")[-1], "предобученный RuBERT"), unsafe_allow_html=True)
+    #cols[1].markdown(card("Параметров", f"{bundle['n_params'] / 1e6:.1f} млн", f"макс. длина {meta['max_len']} токенов"), unsafe_allow_html=True)
     #cols[2].markdown(card("Лучшая эпоха", f"{meta.get('epoch', '?')}", "по validation"), unsafe_allow_html=True)
     #cols[3].markdown(card("Устройство", bundle["device"].upper(), "где считается"), unsafe_allow_html=True)
+    #st.write("")
+
+    st.markdown("##### Метрики на тестовой выборке")
+    metrics = st.columns(4)
+    metrics[0].markdown(
+        card("Тональность · macro-F1", "0.683", "эталон: 0.676"),
+        unsafe_allow_html=True
+    )
+    metrics[1].markdown(
+        card("Точность тональности", "69.5%", "2 211 сообщений"),
+        unsafe_allow_html=True
+    )
+    metrics[2].markdown(
+        card("Эмоции · macro-F1", "0.668", "эталон: 0.672"),
+        unsafe_allow_html=True
+    )
+    metrics[3].markdown(
+        card("Эмоции · micro-F1", "0.730", "1 882 предложения"),
+        unsafe_allow_html=True
+    )
+    st.caption(
+        "Macro-F1 — среднее качество распознавания по классам. "
+        "Эталон — TF-IDF + логистическая регрессия без нейросети."
+    )
+
     st.write("")
+
     left, right = st.columns([1, 1.3])
     with left, st.container(border=True):
         st.markdown("##### Пороги эмоций")
